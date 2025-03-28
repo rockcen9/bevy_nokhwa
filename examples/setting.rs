@@ -51,7 +51,7 @@ fn setup_camera(mut commands: Commands) {
 }
 
 pub fn dashboard(mut egui_context: EguiContexts, mut q_camera: Query<&mut BackgroundCamera>) {
-    let mut camera = q_camera.single_mut();
+    let mut camera = q_camera.single_mut().unwrap();
     let known_controls = camera.known_controls.clone();
 
     egui::Window::new("Camera Controls").show(egui_context.ctx_mut(), |ui| {

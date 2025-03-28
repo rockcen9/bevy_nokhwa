@@ -8,7 +8,6 @@ use bevy::render::extract_resource::ExtractResourcePlugin;
 
 use bevy::render::render_graph::RenderGraph;
 use bevy::render::RenderApp;
-use image::RgbaImage;
 
 pub use nokhwa;
 
@@ -19,7 +18,7 @@ pub struct BevyNokhwaPlugin;
 
 impl Plugin for BevyNokhwaPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(BackgroundImage(RgbaImage::new(640, 480)))
+        app.insert_resource(BackgroundImage(Image::default()))
             .add_plugins(ExtractResourcePlugin::<BackgroundImage>::default())
             .add_systems(Update, handle_background_image);
 
