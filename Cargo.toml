@@ -16,6 +16,7 @@ edition = "2021"
 [features]
 default = ["native"]
 native = ["nokhwa/input-native"]
+capture_only = []
 
 [dependencies]
 anyhow = "1.0.66"
