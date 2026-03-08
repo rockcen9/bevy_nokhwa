@@ -47,6 +47,7 @@ impl BackgroundCamera {
 
         let format = RequestedFormat::new::<RgbFormat>(
             request_format_type.unwrap_or(RequestedFormatType::AbsoluteHighestFrameRate),
+
         );
 
         let first_camera_index: CameraIndex = match index {
@@ -64,6 +65,7 @@ impl BackgroundCamera {
         println!("support controls: {known_controls:#?}");
 
         threaded.open_stream().unwrap();
+        println!("negotiated camera format: {:?}", threaded.camera_format());
 
         std::thread::spawn(move || {
             #[allow(clippy::empty_loop)]

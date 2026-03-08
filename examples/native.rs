@@ -1,18 +1,20 @@
 use bevy::prelude::*;
+use nokhwa::utils::CameraFormat;
 use nokhwa::utils::CameraIndex;
 
 use bevy_nokhwa::camera::BackgroundCamera;
 use bevy_nokhwa::nokhwa::utils::ApiBackend;
-use bevy_nokhwa::nokhwa::utils::FrameFormat;
-use bevy_nokhwa::nokhwa::utils::{CameraFormat, RequestedFormatType, Resolution};
+use bevy_nokhwa::nokhwa::utils::RequestedFormatType;
 use bevy_nokhwa::BevyNokhwaPlugin;
+use nokhwa::utils::FrameFormat;
+use nokhwa::utils::Resolution;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
                 title: "BevyNokhwa".to_string(),
-                resolution: [1280., 960.].into(),
+                resolution: [1280_u32, 960_u32].into(),
                 ..default()
             }),
             ..default()
@@ -42,7 +44,7 @@ fn setup_camera(
                 Some(CameraIndex::Index(0)),
                 Some(RequestedFormatType::Closest(CameraFormat::new(
                     Resolution::new(640, 480),
-                    FrameFormat::MJPEG,
+                    FrameFormat::YUYV,
                     30,
                 ))),
             )

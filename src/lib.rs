@@ -1,17 +1,16 @@
 use crate::background::{
-    handle_background_image, BackgroundImage, BackgroundNode, BackgroundNodeLabel,
-    BackgroundPipeline,
+    handle_background_image, prepare_background, render_background, BackgroundPipeline,
+    BackgroundRenderState,
 };
-use bevy::core_pipeline;
+use bevy::core_pipeline::{Core2d, Core2dSystems, Core3d, Core3dSystems};
 use bevy::prelude::*;
 use bevy::render::extract_resource::ExtractResourcePlugin;
-
-use bevy::render::render_graph::RenderGraph;
-use bevy::render::RenderApp;
+use bevy::render::{Render, RenderApp, RenderSystems};
 
 pub use nokhwa;
 
 mod background;
+pub use background::BackgroundImage;
 pub mod camera;
 
 pub struct BevyNokhwaPlugin;
@@ -23,32 +22,14 @@ impl Plugin for BevyNokhwaPlugin {
             .add_systems(Update, handle_background_image);
 
         let render_app = app.sub_app_mut(RenderApp);
-
-        let background_node_2d = BackgroundNode::new(render_app.world_mut());
-        let background_node_3d = BackgroundNode::new(render_app.world_mut());
-        let mut render_graph = render_app.world_mut().resource_mut::<RenderGraph>();
-
-        if let Some(graph_2d) =
-            render_graph.get_sub_graph_mut(core_pipeline::core_2d::graph::Core2d)
-        {
-            graph_2d.add_node(BackgroundNodeLabel, background_node_2d);
-
-            graph_2d.add_node_edge(
-                BackgroundNodeLabel,
-                core_pipeline::core_2d::graph::Node2d::StartMainPass,
-            );
-        }
-
-        if let Some(graph_3d) =
-            render_graph.get_sub_graph_mut(core_pipeline::core_3d::graph::Core3d)
-        {
-            graph_3d.add_node(BackgroundNodeLabel, background_node_3d);
-
-            graph_3d.add_node_edge(
-                BackgroundNodeLabel,
-                core_pipeline::core_3d::graph::Node3d::MainTransparentPass,
-            );
-        }
+        render_app
+            .init_resource::<BackgroundRenderState>()
+            .add_systems(
+                Render,
+                prepare_background.in_set(RenderSystems::PrepareResources),
+            )
+            .add_systems(Core3d, render_background.before(Core3dSystems::MainPass))
+            .add_systems(Core2d, render_background.before(Core2dSystems::MainPass));
     }
 
     fn finish(&self, app: &mut App) {
