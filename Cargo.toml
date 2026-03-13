@@ -20,7 +20,7 @@ capture_only = []
 
 [dependencies]
 anyhow = "1.0.66"
-bevy = { version = "0.19.0-dev", git = "https://github.com/bevyengine/bevy", default-features = false, features = [
+bevy = { rev = "1b3b01e94003cbcf652f842057ebab547b400b0e", git = "https://github.com/bevyengine/bevy", default-features = false, features = [
     "bevy_render",
     "bevy_core_pipeline",
     "bevy_asset",
@@ -39,7 +39,7 @@ image = { version = "0.25.5", default-features = false, features = [] }
 nokhwa = { version = "0.10", features = ["input-native", "output-threaded"] }
 
 [dev-dependencies]
-bevy = { version = "0.19.0-dev", git = "https://github.com/bevyengine/bevy" }
+bevy = { rev = "1b3b01e94003cbcf652f842057ebab547b400b0e", git = "https://github.com/bevyengine/bevy" }
 #bevy_egui = "0.31.1"
 bevy_egui = { git = "https://github.com/Friz64/bevy_egui.git", branch = "bevy-0.16" }
 
