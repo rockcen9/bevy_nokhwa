@@ -120,7 +120,7 @@ impl FromWorld for BackgroundPipeline {
 
         let render_pipeline_layout = device.create_pipeline_layout(&PipelineLayoutDescriptor {
             label: Some("Webcam Render Pipeline Layout"),
-            bind_group_layouts: &[&texture_bind_group_layout],
+            bind_group_layouts: &[Some(&texture_bind_group_layout)],
             immediate_size: 0,
         });
 
